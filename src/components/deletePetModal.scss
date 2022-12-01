@@ -1,0 +1,9 @@
+.likes_container{
+    display: flex;
+}
+.like_adopt_container{
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 24px;
+    align-items: center;
+}

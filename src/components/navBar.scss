@@ -1,0 +1,60 @@
+nav{
+    background-color: #fff;
+    box-shadow: 0px 8px 40px rgba(34, 69, 82, 0.15);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 901px;
+    margin: 0 auto 41px;
+    padding: 17px 17px 17px 23px;  
+    a{
+        color: #141414;
+        text-decoration: none !important;
+        &:hover{
+            color: #141414;
+            opacity: 0.8;
+        }
+    }
+    .logo{
+        font: 24px/30px 'Do-Hyeon', 'Segoe UI', sans-serif;
+    }
+}
+
+ul{
+    display: flex;
+    list-style: none;
+    gap: 49px;
+    margin-bottom: 0 !important;
+    align-items: center;
+    font: 14px/21px 'Kanit', 'Segoe UI', sans-serif;
+    li{
+        a{
+            color: #BDBDBD;
+        }
+        button{
+            transition: all 0.21s ease-in-out;
+            &:focus,
+            &:focus-visible {
+                outline: none;
+            }
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+        &.active {
+            a{
+                color: #FF5C4C;
+            }
+        }
+    }
+    .add_pet_btn{
+        background-color: #FF5C4C;
+        border: none;
+        border-radius: 7px;
+        color: #FFFFFF;
+        padding: 0 9px;
+        line-height: 35px;
+        cursor: pointer;
+    }
+}

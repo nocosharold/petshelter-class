@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
-import { getPets } from '../services/fakePetService';
+import './petList.scss';
 
-class petList extends Component {
-    state = { 
-        pets: getPets()
-    };
-
-    handleDelete = (pet) => {
-        console.log(pet);
-        const pets = this.state.pets.filter(m => m._id !== pet._id);
-        this.setState({ pets });
-    }
-
+class PetList extends Component {
     render() { 
-        const { length: count } = this.state.pets;
+        const { length: count } = this.props.petData;
 
         if(count === 0)
             return <p>There are no pets in the database.</p>;
 
         return (
             <>
-                <p>Showing {count} pets in the database</p>
                 <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Pet Name</th>
-                            <th>Pet Category</th>
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        { this.state.pets.map( pet => (
+                        { this.props.petData.map( pet => (
                             <tr key={pet._id}>
                                 <td>{pet.petName}</td>
-                                <td>{pet.petType.name}</td>
-                                <td><button onClick={() => this.handleDelete(pet)} className="btn btn-danger btn-sm">Adopt</button></td>
+                                <td>{pet.petType}</td>
+                                <td>
+                                    <button onClick={() => this.props.onShowDeleteModal(pet)} className="btn btn_details btn_action">Details</button>
+                                    <button onClick={() => this.props.onShowEditModal(pet)} className="btn btn_edit btn_action">Edit</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -44,4 +29,4 @@ class petList extends Component {
     }
 }
 
-export default petList;
+export default PetList;
