@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './petList.scss';
+import "./petList.scss";
 
 class PetList extends Component {
     render() { 
         const { length: count } = this.props.petData;
-
-        if(count === 0)
+        const { onShowDeleteModal, onShowEditModal } = this.props;
+        if(!count)
             return <p>There are no pets in the database.</p>;
 
         return (
@@ -17,8 +17,8 @@ class PetList extends Component {
                                 <td>{pet.petName}</td>
                                 <td>{pet.petType}</td>
                                 <td>
-                                    <button onClick={() => this.props.onShowDeleteModal(pet)} className="btn btn_details btn_action">Details</button>
-                                    <button onClick={() => this.props.onShowEditModal(pet)} className="btn btn_edit btn_action">Edit</button>
+                                    <button onClick={() => onShowDeleteModal(pet)} className="btn btn_details btn_action">Details</button>
+                                    <button onClick={() => onShowEditModal(pet)} className="btn btn_edit btn_action">Edit</button>
                                 </td>
                             </tr>
                         ))}

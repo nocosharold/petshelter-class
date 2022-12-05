@@ -26,7 +26,7 @@ export default class App extends Component {
       new_pet: "",
       pet_name: "",
       pet_type: "Pig",
-      likes: 0
+      likes: 0,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -68,7 +68,7 @@ export default class App extends Component {
   handleHideDeleteModal = () => {
     this.setState({ delete_modal: false });
   }
-
+  /* refactor handle */
   handleChange = (event) => {
     this.setState({ pet_name: event.target.value });
   }
@@ -78,40 +78,48 @@ export default class App extends Component {
   }
 
   handleAddSubmit = (event) => {
-    this.setState({
-      pets: [...this.state.pets,
+    event.preventDefault();
+    const { pets, pet_name, pet_type } = this.state;
+
+  this.setState({
+    pets: [...pets,
         { _id: uuidv4(),
-          petName: this.state.pet_name, 
-          petType: this.state.pet_type,
+          petName: pet_name, 
+          petType: pet_type,
+          likes: 0
         }
       ],
       pet_name: "",
       add_modal: false,
     });
-    event.preventDefault();
   }
   
   handleEditSubmit = () => {
-    this.setState({ 
-      edit_modal: false,
-      edited_pets: this.state.pets.forEach(pet => {
-        if(pet._id === this.state.id){
-          pet.petType = this.state.pet_type
-        }
-      })
+    const { pets, id, pet_type } = this.state;
+
+    const edited_pet = pets.map(pet => {
+      if(pet._id === id){
+        pet.petType = pet_type
+      }
+      return pet;
     });
+
+      this.setState({ edit_modal: false, pets: edited_pet  });
   }
 
   handleDelete = () => {
-      const pets = this.state.pets.filter(m => m._id !== this.state.id);
-      this.setState({ pets, delete_modal: false, });
+    const pets = this.state.pets.filter(pet => pet._id !== this.state.id);
+    this.setState({ pets, delete_modal: false, });
   }
 
   handleLikes = () => {
+    const { pets, id } = this.state;
+
     this.setState({ 
       edit_modal: false,
-      edited_pets: this.state.pets.forEach(pet => {
-        if(pet._id === this.state.id){
+      edited_pets: pets.forEach(pet => {
+        if(pet._id === id){
+          // eslint-disable-next-line
           pet.likes = ++this.state.likes
         }
       })
@@ -119,6 +127,7 @@ export default class App extends Component {
   }
 
   render() {
+    const { pets, add_modal, edit_modal, pet_name, pet_type, delete_modal, likes } = this.state;
     return (
       <div>
         <main className="container">
@@ -126,32 +135,31 @@ export default class App extends Component {
           <HeaderSection />
           <PetList 
             onShowDeleteModal={ this.handleShowDeleteModal } 
-            petData={ this.state.pets } 
+            petData={ pets } 
             onShowEditModal={this.handleShowEditModal}/>
           <AddPetModal 
-            showAddModalState={this.state.add_modal} 
+            showAddModalState={ add_modal } 
             onHideAddModal={this.handleHideAddModal} 
             onAddSubmit={this.handleAddSubmit}
             onChangeField={this.handleChange}
             onChangeType={this.handleChangeType}
             />
           <EditPetModal
-            showEditModalState={this.state.edit_modal}
+            showEditModalState={ edit_modal }
             onHideEditModal={this.handleHideEditModal}
             onSubmitEdit = {this.handleEditSubmit}
             onEditSubmit={this.handleEditSubmit}
             onChangeType={this.handleChangeType}
-            petNameValue={this.state.pet_name}
-            petTypeValue={this.state.pet_type}
+            petTypeValue={ pet_type }
           />
           <DeletePetModal
-            showDeleteModalState={this.state.delete_modal} 
+            showDeleteModalState={ delete_modal } 
             onHideDeleteModal={this.handleHideDeleteModal}
             onSubmitDelete = {this.handleDelete}
             onDeleteSubmit = {this.handleDelete}
-            petNameValue={this.state.pet_name}
-            petTypeValue={this.state.pet_type}
-            petLikesValue={this.state.likes}
+            petNameValue={ pet_name }
+            petTypeValue={ pet_type }
+            petLikesValue={ likes }
             onLikes={this.handleLikes}
           />
         </main>

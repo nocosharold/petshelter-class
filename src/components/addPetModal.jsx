@@ -3,8 +3,9 @@ import './addPetModal.scss';
 
 class AddPetModal extends Component {
     render() { 
+        const { showAddModalState, pet_name, value, onHideAddModal, onAddSubmit, onChangeField, onChangeType } = this.props;
         return (
-			<div className={this.getShowStatus()} tabIndex="-1" role="dialog" aria-hidden="true">
+			<div className={!showAddModalState ? "modal" : "modal fade show"} tabIndex="-1" role="dialog" aria-hidden="true">
 				<div className="modal-dialog" role="document">
 					<div className="modal-content">
 						<div className="modal-header">
@@ -12,16 +13,16 @@ class AddPetModal extends Component {
 								Add Pet
 							</h5>
 							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true" onClick={() => { this.props.onHideAddModal() }}>&times;</span>
+								<span aria-hidden="true" onClick={() => { onHideAddModal() }}>&times;</span>
 							</button>
 						</div>
 						<div className="modal-body">
-                            <form onSubmit={() => { this.props.onAddSubmit() }}>
+                            <form onSubmit={() => { onAddSubmit() }}>
                                 <label htmlFor="pet_name">Pet Name
-                                    <input type="text" id="pet_name" name="pet_name" value={this.props.pet_name} onChange={(event) => {this.props.onChangeField(event)}}/>
+                                    <input type="text" id="pet_name" name="pet_name" value={ pet_name } onChange={(event) => {onChangeField(event)}}/>
                                 </label>
                                 <label htmlFor="pet_type">Pet Type
-                                    <select name="pet_type" id="pet_type" value={this.props.value} onChange={(event) => {this.props.onChangeType(event)}}>
+                                    <select name="pet_type" id="pet_type" value={value} onChange={(event) => {onChangeType(event)}}>
                                         <option value="Pig">Pig</option>
                                         <option value="Cat">Cat</option>
                                         <option value="Dog">Dog</option>
@@ -29,7 +30,7 @@ class AddPetModal extends Component {
                                         <option value="Penguin">Penguin</option>
                                     </select>
                                 </label>
-                                <button type="button" className="btn btn-primary" onClick={(event) => {this.props.onAddSubmit(event)}}>
+                                <button type="button" className="btn btn-primary" onClick={(event) => {onAddSubmit(event)}}>
                                     Add Pet
                                 </button>
                             </form>
@@ -38,12 +39,6 @@ class AddPetModal extends Component {
 				</div>
 			</div>
 		);
-    }
-
-    getShowStatus(){
-        let modalClass = "modal fade";
-        modalClass += (this.props.showAddModalState === false) ? "" : " show";
-        return modalClass;
     }
 }
  
